@@ -11,6 +11,9 @@ import styles from '@styles/home/PostItem.module.css';
  * @param {favorite} boolean `true` when its display on `favorite` page
 */
 const PostItem: NextPage<{ post: PostProps, favorite: boolean }> = ({ post, favorite }) => {
+    // `loading` state sets `true` whenever API request called.
+    const [loading, setLoading] = useState(false);
+
     // `like` state value keeps track of every `post_item` like state.
     const [like, setLike] = useState(post.liked);
 
@@ -21,6 +24,9 @@ const PostItem: NextPage<{ post: PostProps, favorite: boolean }> = ({ post, favo
     // `onLikeClicked` triggers whenever user click on like button.
     // It sends a post request to server to change like status.
     const onLikeClicked = async () => {
+        // Change `loading` state `true`
+        setLoading(true);
+
         // Check weather the app hosted or not in environment variables.
         // `host_url` has the hosted server url
         // `dev_url` has the local server url
@@ -39,6 +45,9 @@ const PostItem: NextPage<{ post: PostProps, favorite: boolean }> = ({ post, favo
             body: JSON.stringify({}),
         }).then(data => data.json());
         setLike(!like);
+
+        // Change `loading` state `false`
+        setLoading(false);
 
         // Checking whether its on `favorite` page.
         if (favorite) {
@@ -59,7 +68,7 @@ const PostItem: NextPage<{ post: PostProps, favorite: boolean }> = ({ post, favo
             </div>
             <div className={styles.photo}>
                 <img src={post.image_url} className={styles.post_image} alt="Post image" />
-                <span className={styles.like_button} onClick={onLikeClicked}>
+                <span className={`${styles.like_button} ${loading ? styles.loading : ''}`} onClick={onLikeClicked}>
                     <i className={`${like ? 'fas' : 'far'} fa-heart`}></i>
                 </span>
             </div>

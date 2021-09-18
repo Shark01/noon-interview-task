@@ -73,13 +73,28 @@
   justify-self: end;
   align-self: flex-end;
   padding: 10px 15px;
-  cursor: pointer;
 }
 
 .post_item .photo .like_button i {
   fill: var(--primary-color);
   color: var(--primary-color);
   font-size: 30px;
+}
+
+.post_item .photo .like_button:hover{
+  cursor: pointer;
+  animation: pop 0.3s linear 1;
+}
+
+.post_item .photo .like_button.loading{
+  animation: pulse 0.5s ease-in infinite;
+}
+
+.post_item .photo .like_button.loading i{
+  position: relative;
+  left: -10vh;
+  top: -10vh;
+  font-size: 10em;
 }
 
 .post_item .end {
@@ -138,4 +153,12 @@
 
 .post_item.hidden{
   display: none;
+}
+
+@keyframes pulse{
+  25%  {transform: scale(0.9);}
+  75%  {transform: scale(1.1);}
+}
+@keyframes pop{
+  50%  {transform: scale(1.2);}
 }
